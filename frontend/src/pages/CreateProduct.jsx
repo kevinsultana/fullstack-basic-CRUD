@@ -1,10 +1,13 @@
+import { useProductStore } from "../store/product";
 import {
   Box,
   Button,
   Container,
   Heading,
   Input,
+  Toast,
   useColorModeValue,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -17,8 +20,19 @@ export default function CreateProduct() {
     image: "",
   });
 
-  const handleCreateProduct = () => {
-    console.log("Creating product:", newProduct);
+  const { createProduct } = useProductStore();
+  const toast = useToast();
+
+  const handleCreateProduct = async () => {
+    const data = await createProduct(newProduct);
+    if (data?.success === true) {
+      toast({ title: "Product created successfully", status: "success" });
+      setNewProduct({ name: "", description: "", price: "", image: "" });
+    } else if (data?.success === false) {
+      toast({ title: "Failed to create product", status: "error" });
+    } else if (data?.error) {
+      toast({ title: data.error, status: "warning" });
+    }
   };
 
   return (
@@ -50,6 +64,7 @@ export default function CreateProduct() {
             />
             <Input
               placeholder="Price"
+              type="number"
               value={newProduct.price}
               onChange={(e) =>
                 setNewProduct({ ...newProduct, price: e.target.value })
@@ -62,7 +77,7 @@ export default function CreateProduct() {
                 setNewProduct({ ...newProduct, image: e.target.value })
               }
             />
-            <Button colorScheme="blue" onClick={handleCreateProduct}>
+            <Button colorScheme="blue" onClick={handleCreateProduct} w={"full"}>
               Create Product
             </Button>
           </VStack>

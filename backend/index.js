@@ -41,6 +41,41 @@ app.post("/api/products", async (req, res) => {
   }
 });
 
+app.delete("/api/products/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedProduct = await Product.findByIdAndDelete(id);
+    if (!deletedProduct) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+    res.json({ success: true, message: "Product deleted successfully" });
+  } catch (error) {
+    console.error("error, deleting product", error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+});
+
+app.put("/api/products/:id", async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
+    if (!updatedProduct) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found" });
+    }
+    res.json({ success: true, data: updatedProduct });
+  } catch (error) {
+    console.error("error, updating product", error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+});
+
 app.listen(5000, () => {
   connectDB();
   console.log("Server running... http://localhost:5000");

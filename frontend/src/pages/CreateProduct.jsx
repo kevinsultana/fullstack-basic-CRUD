@@ -11,6 +11,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function CreateProduct() {
   const [newProduct, setNewProduct] = useState({
@@ -22,12 +23,14 @@ export default function CreateProduct() {
 
   const { createProduct } = useProductStore();
   const toast = useToast();
+  const navigate = useNavigate();
 
   const handleCreateProduct = async () => {
     const data = await createProduct(newProduct);
     if (data?.success === true) {
       toast({ title: "Product created successfully", status: "success" });
       setNewProduct({ name: "", description: "", price: "", image: "" });
+      navigate("/", { replace: true });
     } else if (data?.success === false) {
       toast({ title: "Failed to create product", status: "error" });
     } else if (data?.error) {

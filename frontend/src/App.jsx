@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar";
 
 export default function App() {
   return (
-    <Box minH={"100vh"} bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box minH={"100vh"} bg={useColorModeValue("gray.100", "gray.800")}>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />

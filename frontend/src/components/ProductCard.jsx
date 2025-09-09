@@ -125,6 +125,7 @@ export default function ProductCard({ product }) {
               <Input
                 placeholder="Product Price"
                 value={newProduct.price}
+                type="number"
                 onChange={(e) =>
                   setProduct({ ...newProduct, price: e.target.value })
                 }

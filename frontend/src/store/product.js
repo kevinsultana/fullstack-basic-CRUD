@@ -42,4 +42,17 @@ export const useProductStore = create((set) => ({
       console.log(error);
     }
   },
+  editProduct: async (id, updatedProduct) => {
+    try {
+      const response = await BaseUrl.put(`/products/${id}`, updatedProduct);
+      if (response.status === 200) {
+        const { getProducts } = useProductStore.getState();
+        getProducts();
+      } else {
+        console.log("Failed to update the product");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
 }));

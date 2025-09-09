@@ -39,8 +39,14 @@ export default function CreateProduct() {
   };
 
   return (
-    <Container maxW={"container.sm"}>
-      <VStack spacing={8} align={"stretch"}>
+    <Container
+      maxW={"container.sm"}
+      my={12}
+      color={useColorModeValue("gray.700", "gray.200")}
+      bgColor={useColorModeValue("gray.50", "gray.900")}
+      rounded={"2xl"}
+    >
+      <VStack spacing={8} align={"stretch"} py={2} pb={8}>
         <Heading size="lg" textAlign={"center"} mt={4}>
           Create New Product
         </Heading>

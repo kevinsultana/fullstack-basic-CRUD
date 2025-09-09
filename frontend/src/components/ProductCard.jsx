@@ -30,7 +30,7 @@ export default function ProductCard({ product }) {
   const textColor = useColorModeValue("gray.600", "gray.200");
   const bgColor = useColorModeValue("white", "gray.700");
 
-  const { deleteProduct } = useProductStore();
+  const { deleteProduct, editProduct } = useProductStore();
 
   const toast = useToast();
 
@@ -39,6 +39,19 @@ export default function ProductCard({ product }) {
     toast({
       title: "Product deleted.",
       description: "The product has been successfully deleted.",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
+  const handleEdit = async (id) => {
+    // Implement the edit functionality here
+    await editProduct(id, newProduct);
+    setIsModalEditOpen(false);
+    toast({
+      title: "Product updated.",
+      description: "The product has been successfully updated.",
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -128,8 +141,8 @@ export default function ProductCard({ product }) {
           <ModalFooter>
             <HStack spacing={4}>
               <Button
-                colorScheme="red"
-                // onClick={() => handleDelete(product._id)}
+                colorScheme="blue"
+                onClick={() => handleEdit(product._id)}
               >
                 Edit
               </Button>
